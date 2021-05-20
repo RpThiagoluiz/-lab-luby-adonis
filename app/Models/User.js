@@ -4,7 +4,7 @@
 const Model = use("Model");
 
 /** @type {import('@adonisjs/framework/src/Hash')} */
-const Model = use("Model");
+
 const Hash = use("Hash");
 
 class User extends Model {

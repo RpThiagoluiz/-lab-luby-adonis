@@ -16,6 +16,10 @@ const providers = [
   "@adonisjs/bodyparser/providers/BodyParserProvider",
   "@adonisjs/cors/providers/CorsProvider",
   "@adonisjs/lucid/providers/LucidProvider",
+  //adicionar o email depois da instalacao do pacote do adonis.
+  "@adonisjs/mail/providers/MailProvider",
+  //View porq instalamos somente a versao --app-only
+  "@adonisjs/framework/providers/ViewProvider",
 ];
 
 /*
