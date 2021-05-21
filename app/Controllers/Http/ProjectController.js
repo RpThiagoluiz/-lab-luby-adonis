@@ -8,7 +8,16 @@ class ProjectController {
     //Quero os dados do usuario relaciodos ao projeto criado
     //utilizamos esse dcodigo para trazer os dados dele
     //fetch pra concluir a request
-    const projects = await Project.query().with("user").fetch();
+    //const projects = await Project.query().with("user").fetch();
+
+    //Somente a page pelo parms da request.
+    const { page } = request.get();
+    //Se vc quiser paginar a quantidade de item por pagina, tem tudo na doc.
+
+    //Qureremos mudar para paginacao
+    // subistitui o fetch, por paginate, e passamos o numero da pagina dentro
+    //ou a const page, que vem da minha request.
+    const projects = await Project.query().with("user").paginate(page);
 
     return projects;
   }
