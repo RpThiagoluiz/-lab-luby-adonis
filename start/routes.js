@@ -25,4 +25,7 @@ Route.group(() => {
   //Rotas pra todos os controllers
   //Criar todas as rotas possiveis para o crud do projeto.
   Route.resource("projects", "ProjectController").apiOnly();
+  //Tasks dos projetos
+  Route.resource("projects.tasks", "TaskController").apiOnly();
+  // adonis route:list para trazer as rotas
 }).middleware(["auth"]);
