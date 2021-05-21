@@ -4,6 +4,16 @@
 const Model = use("Model");
 
 class Task extends Model {
+  //static boot -> msm coisa que o super
+  static boot() {
+    super.boot();
+
+    //Os hooks no site do legacy do adonis tem todos explicando direitinho.
+    this.addHook("afterCreate", "TaskHook.sendNewTaskMail");
+    this.addHook("beforeUpdate", "TaskHook.sendNewTaskMail");
+  }
+
+  //Aq pra cima foi o hook
   project() {
     return this.belongsTo("App/Models/Project");
   }
