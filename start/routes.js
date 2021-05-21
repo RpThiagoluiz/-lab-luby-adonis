@@ -17,5 +17,12 @@ Route.put("passwords", "ForgotPasswordController.update");
 
 //Para acessar o arquivo, contudo a pasta temp nao pode ser acessa, vmos ajeitar.
 Route.get("/files/:id", "FileController.show");
-//Routs de postagem de files
-Route.post("/files", "FileController.store");
+
+//Criar rota para ser acessada somente quando o usuario estiver logado
+Route.group(() => {
+  //Routs de postagem de files
+  Route.post("/files", "FileController.store");
+  //Rotas pra todos os controllers
+  //Criar todas as rotas possiveis para o crud do projeto.
+  Route.resource("projects", "ProjectController").apiOnly();
+}).middleware(["auth"]);

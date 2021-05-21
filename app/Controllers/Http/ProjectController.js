@@ -1,4 +1,6 @@
-'use strict'
+"use strict";
+
+const Project = use("App/models/Project");
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -17,7 +19,14 @@ class ProjectController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
+  async index({ request, response, view }) {
+    //const project = await Project.all()
+    //Quero os dados do usuario relaciodos ao projeto criado
+    //utilizamos esse dcodigo para trazer os dados dele
+    //fetch pra concluir a request
+    const projects = await Project.query().with("user").fetch();
+
+    return projects;
   }
 
   /**
@@ -29,8 +38,6 @@ class ProjectController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
-  }
 
   /**
    * Create/save a new project.
@@ -40,7 +47,13 @@ class ProjectController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+
+  //Id do user vou utilizar o auth
+  async store({ request, response, auth }) {
+    const data = request.only(["title", "description"]);
+    const project = await Project.create({ ...data, user_id: auth.user.id });
+
+    return project;
   }
 
   /**
@@ -52,7 +65,15 @@ class ProjectController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
+  // Metodos Show para trazer somente um projeto em expecifico.
+  async show({ params, request, response, view }) {
+    const project = await Project.findOrFail(params.id);
+
+    //Pegar as infos relacionadas ao projeto
+    await project.load("user"); //trazer as info do user
+    await project.load("tasks"); //trazer as tasks
+
+    return project;
   }
 
   /**
@@ -64,8 +85,6 @@ class ProjectController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
-  }
 
   /**
    * Update project details.
@@ -75,7 +94,15 @@ class ProjectController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
+  async update({ params, request, response }) {
+    const project = await Project.findOrFail(params.id);
+    const data = request.only(["title", "description"]);
+
+    //Pegar as dados que vem da data, colocar dentro do projet
+    project.merge(data);
+    await project.save();
+
+    return project;
   }
 
   /**
@@ -86,8 +113,10 @@ class ProjectController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
+  async destroy({ params, request, response }) {
+    const project = await Project.findOrFail(params.id);
+    await project.delete();
   }
 }
 
-module.exports = ProjectController
+module.exports = ProjectController;
