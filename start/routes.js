@@ -12,3 +12,10 @@ const Route = use("Route");
 Route.post("users", "UserController.store");
 Route.post("sessions", "SessionController.store");
 Route.post("passwords", "ForgotPasswordController.store");
+//Inserir os dados novos, nova senha no caso.
+Route.put("passwords", "ForgotPasswordController.update");
+
+//Para acessar o arquivo, contudo a pasta temp nao pode ser acessa, vmos ajeitar.
+Route.get("/files/:id", "FileController.show");
+//Routs de postagem de files
+Route.post("/files", "FileController.store");
