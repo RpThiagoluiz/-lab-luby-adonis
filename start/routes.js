@@ -9,7 +9,7 @@ const Route = use("Route");
 // fica dentro de app, controllers,http e o arquivo
 //adonis route:list
 //Ele vai demostrar no terminal as rotas criadas.
-Route.post("users", "UserController.store");
+Route.post("users", "UserController.store").validator("User");
 Route.post("sessions", "SessionController.store");
 Route.post("passwords", "ForgotPasswordController.store");
 //Inserir os dados novos, nova senha no caso.

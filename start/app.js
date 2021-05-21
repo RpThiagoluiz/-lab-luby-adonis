@@ -20,6 +20,8 @@ const providers = [
   "@adonisjs/mail/providers/MailProvider",
   //View porq instalamos somente a versao --app-only
   "@adonisjs/framework/providers/ViewProvider",
+  //Controller de validation
+  "@adonisjs/validator/providers/ValidatorProvider",
 ];
 
 /*
