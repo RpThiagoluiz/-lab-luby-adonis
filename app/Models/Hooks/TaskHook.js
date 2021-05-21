@@ -1,7 +1,8 @@
 "use strict";
 
-const Mail = use("Mail");
-const Helpers = use("Helpers");
+const Kue = use("Kue");
+const Job = use("App/Jobs/NewTaskMail");
+
 const TaskHook = (exports = module.exports = {});
 // .method -> substituimos pelo nome do hook
 TaskHook.sendNewTaskMail = async (taskIntance) => {
@@ -19,27 +20,8 @@ TaskHook.sendNewTaskMail = async (taskIntance) => {
   const { title } = taskIntance;
 
   //hasAttachment:!!file -> se existir valo true se nao false
-
-  await Mail.send(
-    //PEgar o arquivo de texto do email, no caso arquivo html.
-    ["emails.new_task"],
-    {
-      //Variaveis passadas para dentro do email
-      username,
-      title,
-      hasAttachment: !!file,
-    },
-    (message) => {
-      message
-        .to(email)
-        .from("admin@adminThi.com", "Thiago | Admin")
-        .subject("Nova tarefa para vc");
-
-      if (file) {
-        message.attach(Helpers.tmpPath(`uploads/${file.file}`), {
-          filename: file.name,
-        });
-      }
-    }
-  );
+  //OQ foi configurado no Jobs, foi extraido daqui a logica.
+  //E o segundo obj, priotirade. e outros dados.
+  //Attempts, tentar reeviar no maximo de 3 vezes
+  Kue.dispatch(Job.key, { email, username, title, file }, { attempts: 3 });
 };
