@@ -1,5 +1,5 @@
 "use strict";
-
+const Antl = use("Antl");
 class ResetPassword {
   get validateAll() {
     return true;
@@ -11,6 +11,10 @@ class ResetPassword {
       //confirmar a senha
       password: "required|confirmed",
     };
+  }
+  get messages() {
+    //nome do arquivo criado `.json`
+    return Antl.list("validation");
   }
 }
 

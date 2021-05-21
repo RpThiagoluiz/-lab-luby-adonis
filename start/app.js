@@ -22,6 +22,8 @@ const providers = [
   "@adonisjs/framework/providers/ViewProvider",
   //Controller de validation
   "@adonisjs/validator/providers/ValidatorProvider",
+  //Mult linguistic in error handle
+  "@adonisjs/antl/providers/AntlProvider",
 ];
 
 /*
