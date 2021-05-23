@@ -1,6 +1,9 @@
 "use strict";
 //Verificar se estamos em ambiente de desenvolvimento,
 
+const Raven = require("raven");
+const Config = use("Config");
+
 const Env = use("Env");
 const Youch = use("Youch");
 
@@ -26,7 +29,9 @@ class ExceptionHandler extends BaseExceptionHandler {
   }
 
   async report(error, { request }) {
-    // oque vc quer fazer com o erro
+    //acessar o arquivo services dentro da pasta Config,(por isso o import!), esentry, dentro dela o dsn
+    Raven.config(Config.get("services.sentry.dsn"));
+    Raven.captureException(error);
   }
 }
 
